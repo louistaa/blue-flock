@@ -1,6 +1,6 @@
 export const config = {
-  consumer_key:         'Jq2QwhzanCTxMXJPkmlViGAOC',
-  consumer_secret:      'MHxKnVibJcp78CvqN3b692WTtnLtkmpKvB0eZf4SdMsqne71ie',
-  access_token:         '1105793491576090624-qy4KXerDbq7ZQn9hcAVU5HJY18k4Wx',
-  access_token_secret:  'aKHy6WNtYgHMUunXKsN2K7Wbdk9PAQS79O4vR7L86kYPU',
+  consumer_key:         'zQaz9GMUnHzpCFznd7OUFDZSQ',
+  consumer_secret:      'v9effAGA6bMAiqrElT3EeAOuls4CN82iStTvHAxBz4X6t9YvbA',
+  access_token:         '1105793491576090624-wKBfi5zPLWQabA1BKWyQyVdqHdU1e6',
+  access_token_secret:  'rDM8SrfegCoHklBZNR653hURwPNt9jksVRQ3NdjwzvYyR',
 }
