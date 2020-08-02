@@ -79,7 +79,16 @@ async function didMention(event) {
     // })
     .then(function (data) {
       console.log("THIS IS THE DATA: ", data);
-      statusMessageToSend += data[0][0];    //need to setup for loop for multiple locations
+      if (data.length>0){
+        for(list of data){
+          for(place of list){
+            statusMessageToSend += place + ", "
+          }
+        }
+      }else{
+        statusMessageToSend += "sorry, I couldn't find anything! :("
+      }
+
 
       // use the Twit object to handle posting
       let Twit = require("twit");
