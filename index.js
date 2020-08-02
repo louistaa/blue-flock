@@ -30,6 +30,11 @@ const { Autohook } = require('twitter-autohook');
 
 // callback function when event triggers
 async function didMention(event) {
+    // return if attempting to mention self
+    if (event.tweet_create_events[0].user.screen_name === 'Louis37492543' ) {
+        return;
+    }
+
     // save sender information (the person who mentioned me) into an object
     let senderInfo = {
         senderId: undefined,
@@ -44,7 +49,14 @@ async function didMention(event) {
     senderInfo.senderScreenName = event.tweet_create_events[0].user.screen_name;
 
     // construct the message to tweet on my feed
-    const statusMessageToSend = "Hello, @" + senderInfo.senderScreenName + ". You are in " + senderInfo.senderLocation;
+    let statusMessageToSend = '';
+
+    // check if location is null
+    if (senderInfo.senderLocation === 'null' || senderInfo.senderLocation === undefined) {
+        statusMessageToSend = "Awww, @" + senderInfo.senderScreenName + ", I need a location in order to work :(";
+    } else {
+        statusMessageToSend = "Hello, @" + senderInfo.senderScreenName + ". You are in " + senderInfo.senderLocation;
+    }
 
     // use the Twit object to handle posting
     let Twit = require('twit');
@@ -70,4 +82,11 @@ async function didMention(event) {
 // TO DO:
 
 // Develop logic to check for location
-// Investigate why it is also retweeting my own
+
+// git checkout master
+// git pull
+// npm install
+// git checkout yourbranch
+// git merge master / git pull origin master (may be some merge conflicts...)
+// git push
+// :wq to exit out of vim (if you happen to get stuck in it)
