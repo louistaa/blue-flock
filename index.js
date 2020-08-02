@@ -83,17 +83,23 @@ async function didMention(event) {
       "Hello, @" +
       senderInfo.senderScreenName +
       ". You are in " +
-      senderInfo.senderLocation + ". I suggest... ";
+      senderInfo.senderLocation + ". I suggest... \n";
 
     let promises = processTweet(senderInfo.text, senderInfo.senderLocation, 2);
     console.log(promises);
     Promise.all(promises)
       .then(function (data) {
         console.log("DATA: ", data);
+        let counter = 0;
         if (data.length>0){
           for(list of data){
             for(place of list){
-              statusMessageToSend += place + ", "
+              statusMessageToSend += "\n" + place
+              counter++;
+            }
+            
+            if (counter % 2 == 0) {
+                statusMessageToSend += "\n"
             }
           }
         }else{ //if retrieval returns no results/no hashtags were present
