@@ -34,32 +34,42 @@ function processTweet(input, location, count) {
 
   //    console.log(hashtags)
 
-  var resultsList = [];
   var promises = [];
 
   for (tag of hashtags) {
-    var myPromise = fetch(
-      `https://www.triposo.com/api/20200405/poi.json?tag_labels=${tag}&location_id=${location}&count=${count}&account=5UBC3HJA&token=9xzttm97pjneiyan2eyj45uszntfhwgs`
-    )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data) {
-          for (item of data.results) {
-            resultsList.push(item.name);
-          }
-        }
-      });
-    promises.push(myPromise);
+    promises.push(handleFetch(tag, location, count));
   }
 
-  return Promise.all(promises); /*.then(function() {
-        //    console.log('please list plz')
-            console.log(resultsList)
-            return resultsList;
+    return promises; 
+    /*Promise.all(promises).then(function() {
+        // console.log(resultsList)
+        // return resultsList;
+        // })
+// return resultsList;*/
+}
+
+function handleFetch(tag, location, count) {
+    var resultsList = [];
+
+    let url = "https://www.triposo.com/api/20200405/poi.json?tag_labels=" + 
+        tag + "&location_id=" + location + "&count=" + count + 
+        "&account=5UBC3HJA&token=9xzttm97pjneiyan2eyj45uszntfhwgs";
+    return fetch(
+        url
+      )
+        .then(function (response) {
+        console.log("response:", response)
+          return response.json();
         })
-        return resultsList;*/
+        .then(function (data) {
+        console.log("data: ", data)
+          if (data) {
+            for (item of data.results) {
+              resultsList.push(item.name);
+            }
+          }
+          return resultsList;
+        });
 }
 
 exports.processTweet = processTweet;

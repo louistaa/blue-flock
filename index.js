@@ -71,13 +71,15 @@ async function didMention(event) {
       senderInfo.senderLocation;
   }
 
-  processTweet(senderInfo.text, senderInfo.senderLocation, 2)
+  let promises = processTweet(senderInfo.text, senderInfo.senderLocation, 2);
+  console.log(promises);
+  Promise.all(promises)
     // .then(function (response) {
     //   return response.json();
     // })
     .then(function (data) {
-      console.log(data);
-      statusMessageToSend += data;
+      console.log("THIS IS THE DATA: ", data);
+      statusMessageToSend += data[0][0];
 
       // use the Twit object to handle posting
       let Twit = require("twit");
