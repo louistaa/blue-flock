@@ -1,0 +1,23 @@
+{
+  "name": "blue-flock",
+  "version": "1.0.0",
+  "description": "This is Louis This is Alex This is Houy This is GB This is Caro This is Alexandra",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firemochii/blue-flock.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/firemochii/blue-flock/issues"
+  },
+  "homepage": "https://github.com/firemochii/blue-flock#readme",
+  "dependencies": {
+    "twit": "^2.2.11"
+  }
+}
