@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/firemochii/blue-flock#readme",
   "dependencies": {
+    "node-fetch": "^2.6.0",
     "oauth": "^0.9.15",
     "twit": "^2.2.11",
     "twitter-autohook": "^1.7.1"
