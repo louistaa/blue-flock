@@ -1,4 +1,4 @@
-//import { config } from './config'
+const config = require('./config.js'); //{ config } from './config'
 const { processTweet } = require("./textProcessing");
 const { Autohook } = require("twitter-autohook");
 
@@ -57,39 +57,18 @@ async function didMention(event) {
   // check if location is null
   if (
     senderInfo.senderLocation === "null" ||
-    senderInfo.senderLocation === undefined
-  ) {
+    senderInfo.senderLocation === undefined ||
+    senderInfo.senderLocation === null
+  ){
     statusMessageToSend =
       "Awww, @" +
       senderInfo.senderScreenName +
-      ", I need a location in order to work :(";
-  } else {
-    statusMessageToSend =
-      "Hello, @" +
-      senderInfo.senderScreenName +
-      ". You are in " +
-      senderInfo.senderLocation;
-  }
+      ", I need a location in order to work :( Please turn on your location in your Twitter profile to use this bot!";
 
-  let promises = processTweet(senderInfo.text, senderInfo.senderLocation, 2);
-  console.log(promises);
-  Promise.all(promises)
-    // .then(function (response) {
-    //   return response.json();
-    // })
-    .then(function (data) {
-      console.log("THIS IS THE DATA: ", data);
-      statusMessageToSend += data[0][0];
-
-      // use the Twit object to handle posting
+      // tweet instruction to set location, if not set
       let Twit = require("twit");
 
-      let T = new Twit({
-        consumer_key: "LY66zhOzv53aZm7lBRibx94ns",
-        consumer_secret: "FeHT3PY24nURlBMrU3QzWYRGOpVQ1mTfxJqle7duua559CaChq",
-        access_token: "1105793491576090624-zYNN9Vy0O1fDaS9U5XccQWAqhuZKi1",
-        access_token_secret: "P35onKoDXfEfZ1jJQgBv5wJTrWhkXDZ7mlvtebWoK2OSA",
-      });
+      let T = new Twit(config);
 
       T.post("statuses/update", { status: statusMessageToSend }, function (
         err,
@@ -98,13 +77,52 @@ async function didMention(event) {
       ) {
         console.log(data);
       });
-    });
 
-  // debugging purposes:
+  } else { //location is found, retreiving results for response string
+    statusMessageToSend =
+      "Hello, @" +
+      senderInfo.senderScreenName +
+      ". You are in " +
+      senderInfo.senderLocation + ". I suggest... \n";
 
-  // console.log(event);
-  // console.log("You sent me: " + senderInfo.text);
-  // console.log("You are located in: " + senderInfo.location);
+    let promises = processTweet(senderInfo.text, senderInfo.senderLocation, 2);
+    console.log(promises);
+    Promise.all(promises)
+      .then(function (data) {
+        console.log("DATA: ", data);
+        let counter = 0;
+        if (data.length>0){
+          for(list of data){
+            for(place of list){
+              statusMessageToSend += "\n" + place
+              counter++;
+            }
+            
+            if (counter % 2 == 0) {
+                statusMessageToSend += "\n"
+            }
+          }
+        }else{ //if retrieval returns no results/no hashtags were present
+          statusMessageToSend += "sorry, I couldn't find anything! Try using hashtags like #restaurants or #activities to get recommendations!"
+        }
+      
+
+        // use the Twit object to handle posting
+        let Twit = require("twit");
+
+        let T = new Twit(config);
+
+        T.post("statuses/update", { status: statusMessageToSend }, function (
+          err,
+          data,
+          response
+        ) {
+          console.log(data);
+        });
+      });
+    }
+
+
 }
 
 // TO DO:

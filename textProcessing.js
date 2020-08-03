@@ -12,7 +12,7 @@ function processTweet(input, location, count) {
 
   //identify hashtags from tweet
   let hashtags = [];
-  if (input.indexOf("#restaurants") >= 0) {
+  if (input.indexOf("#restaurants") >= 0 || input.indexOf("#restaurant") >= 0) {
     hashtags.push("poitype-Restaurant");
   }
 
@@ -24,8 +24,8 @@ function processTweet(input, location, count) {
     hashtags.push("do");
   }
 
-  if (input.indexOf("#travel") >= 0) {
-    hashtags.push("travel");
+  if (input.indexOf("#museums") >= 0) {
+    hashtags.push("subtype-Art_museums");
   }
 
   if (input.indexOf("#covid19") >= 0) {
@@ -50,6 +50,12 @@ function processTweet(input, location, count) {
 
 function handleFetch(tag, location, count) {
     var resultsList = [];
+
+    //formatting of location to url standards
+    location = location.replace(" ", "_")
+    if (location.indexOf(",") >= 0){
+        location = location.substring(0, location.indexOf(","));
+    }
 
     let url = "https://www.triposo.com/api/20200405/poi.json?tag_labels=" + 
         tag + "&location_id=" + location + "&count=" + count + 
